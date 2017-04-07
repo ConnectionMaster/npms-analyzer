@@ -5,9 +5,11 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint '{*.js,lib/**/*.js,test/**/*.js}' --ignore-pattern=test/coverage",
-    "test": "test/download && VCR_MODE=cache mocha",
-    "test-cov": "test/download && VCR_MODE=cache istanbul cover --dir test/coverage _mocha && echo Coverage lies in test/coverage/lcov-report/index.html",
-    "test-travis": "test/download && VCR_MODE=playback istanbul cover _mocha --report lcovonly && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+    "test": "npm run download-test-fixtures && VCR_MODE=cache mocha",
+    "test-cov": "npm run download-test-fixtures && VCR_MODE=cache istanbul cover --dir test/coverage _mocha && echo Coverage lies in test/coverage/lcov-report/index.html",
+    "test-travis": "npm run download-test-fixtures && VCR_MODE=playback istanbul cover _mocha --report lcovonly && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "download-test-fixtures": "test/bin/download-fixtures",
+    "clean-test-fixtures": "date=\"$(date -R)\" && VCR_MODE=playback mocha && test/bin/clean-fixtures \"$date\""
   },
   "bugs": "https://github.com/npms-io/npms-analyzer/issues/",
   "repository": {
@@ -35,12 +37,12 @@
     "couchdb-force": "^1.0.1",
     "couchdb-iterator": "^2.0.0",
     "david": "^11.0.0",
-    "deep-compact": "^1.0.2",
+    "deep-compact": "^1.1.0",
     "detect-readme-badges": "^1.0.0",
     "detect-repo-changelog": "^1.0.1",
     "detect-repo-linters": "^2.0.0",
     "detect-repo-test-files": "^1.0.0",
-    "elasticsearch": "^12.0.1",
+    "elasticsearch": "^13.0.0-beta2",
     "fetch-coverage": "^1.0.3",
     "gh-issues-stats": "^2.0.4",
     "glob": "^7.0.0",
