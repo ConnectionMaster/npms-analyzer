@@ -21,7 +21,7 @@ This project uses [config](https://www.npmjs.com/package/config) for configurati
 
 - Install [CouchDB](http://couchdb.apache.org/) (on macOS - `brew install couchdb`) and run it (tested with `v2.2`).
 - Create database named `npms` by executing `curl -X PUT http://admin:admin@localhost:5984/npms`
-- [Setup npm replication](https://guide.couchdb.org/draft/replication.html#:~:text=Start%20CouchDB%20and%20open%20your,an%20interface%20to%20start%20replication.) from `https://replicate.npmjs.com/registry` to `npm` database in `continuous` mode. 
+- [Setup npm replication](https://guide.couchdb.org/draft/replication.html#:~:text=Start%20CouchDB%20and%20open%20your,an%20interface%20to%20start%20replication.) from `https://replicate.npmjs.com/registry` to `npm` database in `continuous` mode.
   or with bash (since the UI just times out on that):
 ```sh
 curl -X POST http://127.0.0.1:5984/_replicate  -d '{"source":"https://replicate.npmjs.com/registry", "target":"http://admin:mysecretpassword@127.0.0.1:5984/npm", "create_target": true}' -H "Content-Type: application/json"
@@ -54,8 +54,3 @@ auth_plugins = couch_replicator_auth_noop
 - Install the [ES-head](https://github.com/mobz/elasticsearch-head) or [any other GUI](https://github.com/appbaseio/dejavu#3-comparison-with-other-data-browsers) to perform various manual operations in a web GUI
 - Add these configurations to the `elasticsearch.yml`:
   - `action.auto_create_index: -npms-current,-npms-new,+*`
-
-
-## Crontab
-
-If you plan to run this in production, you should add `$ npms-analyzer tasks enqueue-missing` and `$ npms-analyzer tasks clean-extraneous` to crontab. These tasks ensure that, in case of errors, the `npms` packages are in sync with the packages from the `npm` registry.
